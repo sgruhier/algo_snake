@@ -39,6 +39,6 @@ class Joystick extends ConsumerWidget {
   }
 
   void move(Direction direction, WidgetRef ref) {
-    ref.read(gameProvider.notifier).moveSnake(direction);
+    ref.read(gameProvider.notifier).setSnakeDirection(direction);
   }
 }

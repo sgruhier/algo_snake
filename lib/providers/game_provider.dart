@@ -41,14 +41,18 @@ class GameNotifier extends StateNotifier<GameModel> {
     return false;
   }
 
-  void moveSnake(Direction direction) {
+  void setSnakeDirection(Direction direction) {
+    state = state.copyWith(direction: direction);
+  }
+
+  void moveSnake() {
     if (state.isPlaying == false) {
       return;
     }
     var snake = state.snake;
     var head = state.snake.last;
     late TileModel newHead;
-    switch (direction) {
+    switch (state.direction) {
       case Direction.up:
         newHead = TileModel(x: head.x, y: head.y - 1);
         break;
@@ -72,7 +76,7 @@ class GameNotifier extends StateNotifier<GameModel> {
       snake.add(newHead);
     }
 
-    state = state.copyWith(snake: snake, gameOver: isGameOver(), isPlaying: !isGameOver());
+    state = state.copyWith(snake: snake, isGameOver: isGameOver(), isPlaying: !isGameOver());
   }
 }
 

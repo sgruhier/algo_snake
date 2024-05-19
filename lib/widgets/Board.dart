@@ -23,7 +23,7 @@ class Board extends ConsumerWidget {
         var tileType = game.getTileType(x, y);
         return Tile(
           tileType: tileType,
-          color: game.gameOver && tileType.isSnake ? Colors.red : null,
+          color: game.isGameOver && tileType.isSnake ? Colors.red : null,
         );
       },
     );

@@ -8,14 +8,16 @@ class GameModel {
   BoardModel board;
   List<TileModel> snake;
   TileModel? food;
-  bool gameOver;
+  bool isGameOver;
   bool isPlaying;
+  Direction direction;
 
   GameModel({
     required this.board,
     required this.snake,
+    this.direction = Direction.left,
     this.food,
-    this.gameOver = false,
+    this.isGameOver = false,
     this.isPlaying = false,
   });
 
@@ -82,15 +84,17 @@ class GameModel {
     BoardModel? board,
     List<TileModel>? snake,
     TileModel? food,
-    bool? gameOver,
+    bool? isGameOver,
     bool? isPlaying,
+    Direction? direction,
   }) {
     return GameModel(
       board: board ?? this.board,
       snake: snake ?? this.snake,
       food: food ?? this.food,
-      gameOver: gameOver ?? this.gameOver,
+      isGameOver: isGameOver ?? this.isGameOver,
       isPlaying: isPlaying ?? this.isPlaying,
+      direction: direction ?? this.direction,
     );
   }
 }
