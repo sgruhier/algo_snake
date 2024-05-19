@@ -11,23 +11,21 @@ class Board extends ConsumerWidget {
     return GridView.builder(
       padding: EdgeInsets.zero,
       shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: game.board.nbColumns,
       ),
       itemCount: game.board.nbColumns * game.board.nbRows,
       itemBuilder: (BuildContext context, int index) {
+        var x = index % game.board.nbColumns;
+        var y = index ~/ game.board.nbColumns;
         return Container(
           decoration: BoxDecoration(
-            border: Border(
-              top: const BorderSide(color: Colors.black),
-              left: const BorderSide(color: Colors.black),
-              right: game.board.isRightWall(index) ? const BorderSide(color: Colors.black) : BorderSide.none,
-              bottom: game.board.isBottomWall(index) ? const BorderSide(color: Colors.black) : BorderSide.none,
-            ),
+            border: Border.all(color: Colors.grey),
           ),
           child: Center(
             child: Text(
-              index.toString(),
+              '$x/$y',
             ),
           ),
         );
