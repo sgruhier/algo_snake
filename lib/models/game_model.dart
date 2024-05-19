@@ -8,10 +8,18 @@ class GameModel {
   BoardModel board;
   List<TileModel> snake;
   TileModel? food;
+  bool gameOver;
+  bool isPlaying;
 
-  GameModel({required this.board, this.snake = const [], this.food});
+  GameModel({
+    required this.board,
+    required this.snake,
+    this.food,
+    this.gameOver = false,
+    this.isPlaying = false,
+  });
 
-  void init() {
+  void start() {
     var middleX = (board.nbColumns / 2).floor() + 3;
     var middleY = (board.nbRows / 2).floor();
     snake = [
@@ -34,6 +42,7 @@ class GameModel {
     ];
 
     generateFood();
+    isPlaying = true;
   }
 
   void generateFood() {
@@ -69,17 +78,19 @@ class GameModel {
     }
   }
 
-  void moveSnake(Direction direction) {}
-
   GameModel copyWith({
     BoardModel? board,
     List<TileModel>? snake,
     TileModel? food,
+    bool? gameOver,
+    bool? isPlaying,
   }) {
     return GameModel(
       board: board ?? this.board,
       snake: snake ?? this.snake,
       food: food ?? this.food,
+      gameOver: gameOver ?? this.gameOver,
+      isPlaying: isPlaying ?? this.isPlaying,
     );
   }
 }

@@ -20,8 +20,10 @@ class Board extends ConsumerWidget {
       itemBuilder: (BuildContext context, int index) {
         var x = index % game.board.nbColumns;
         var y = index ~/ game.board.nbColumns;
+        var tileType = game.getTileType(x, y);
         return Tile(
-          tileType: game.getTileType(x, y),
+          tileType: tileType,
+          color: game.gameOver && tileType.isSnake ? Colors.red : null,
         );
       },
     );

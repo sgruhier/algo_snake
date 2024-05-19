@@ -10,7 +10,7 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var padding = MediaQuery.paddingOf(context);
-    ref.watch(gameProvider);
+    var game = ref.watch(gameProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('AlgoSnake'),
@@ -25,10 +25,12 @@ class HomeScreen extends ConsumerWidget {
                 child: Joystick(),
               ),
             ),
-            ElevatedButton(
-              onPressed: () => _start(ref),
-              child: const Text('Start'),
-            ),
+            if (!game.isPlaying)
+              ElevatedButton(
+                onPressed: () => _start(ref),
+                child: Text(game.gameOver ? 'Restart' : 'Start'),
+              ),
+            if (game.gameOver) const Text('Game Over'),
             SizedBox(
               height: padding.bottom,
             )
@@ -39,6 +41,6 @@ class HomeScreen extends ConsumerWidget {
   }
 
   void _start(WidgetRef ref) {
-    ref.read(gameProvider.notifier).start(nbRows: 10, nbColumns: 10);
+    ref.read(gameProvider.notifier).start();
   }
 }

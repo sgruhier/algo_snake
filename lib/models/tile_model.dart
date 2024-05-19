@@ -11,7 +11,11 @@ enum TileType {
   snakeBody,
   snakeHead,
   snakeTail,
-  food,
+  food;
+
+  bool get isSnake {
+    return this == TileType.snakeBody || this == TileType.snakeHead || this == TileType.snakeTail;
+  }
 }
 
 class TileModel {
