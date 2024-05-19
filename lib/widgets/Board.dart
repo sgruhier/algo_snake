@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_snake/providers/game_provider.dart';
+import 'package:flutter_snake/widgets/Tile.dart';
 
 class Board extends ConsumerWidget {
   const Board({super.key});
@@ -19,15 +20,8 @@ class Board extends ConsumerWidget {
       itemBuilder: (BuildContext context, int index) {
         var x = index % game.board.nbColumns;
         var y = index ~/ game.board.nbColumns;
-        return Container(
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.grey),
-          ),
-          child: Center(
-            child: Text(
-              '$x/$y',
-            ),
-          ),
+        return Tile(
+          tileType: game.getTileType(x, y),
         );
       },
     );
