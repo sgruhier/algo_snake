@@ -68,4 +68,18 @@ class GameModel {
       return TileType.empty;
     }
   }
+
+  void moveSnake(Direction direction) {}
+
+  GameModel copyWith({
+    BoardModel? board,
+    List<TileModel>? snake,
+    TileModel? food,
+  }) {
+    return GameModel(
+      board: board ?? this.board,
+      snake: snake ?? this.snake,
+      food: food ?? this.food,
+    );
+  }
 }

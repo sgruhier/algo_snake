@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_snake/models/tile_model.dart';
+import 'package:flutter_snake/providers/game_provider.dart';
 import 'package:flutter_snake/widgets/joystick_key.dart';
 
-class Joystick extends StatelessWidget {
+class Joystick extends ConsumerWidget {
   const Joystick({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final size = MediaQuery.sizeOf(context);
     return SizedBox(
       width: size.width / 2,
@@ -19,13 +21,13 @@ class Joystick extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         children: <Widget>[
           empty(),
-          JoystickKey(direction: Direction.up, onTap: (direction) => move(direction)),
+          JoystickKey(direction: Direction.up, onTap: (direction) => move(direction, ref)),
           empty(),
-          JoystickKey(direction: Direction.left, onTap: (direction) => move(direction)),
+          JoystickKey(direction: Direction.left, onTap: (direction) => move(direction, ref)),
           empty(),
-          JoystickKey(direction: Direction.right, onTap: (direction) => move(direction)),
+          JoystickKey(direction: Direction.right, onTap: (direction) => move(direction, ref)),
           empty(),
-          JoystickKey(direction: Direction.down, onTap: (direction) => move(direction)),
+          JoystickKey(direction: Direction.down, onTap: (direction) => move(direction, ref)),
           empty(),
         ],
       ),
@@ -36,5 +38,7 @@ class Joystick extends StatelessWidget {
     return const SizedBox(width: 0);
   }
 
-  void move(Direction direction) {}
+  void move(Direction direction, WidgetRef ref) {
+    ref.read(gameProvider.notifier).moveSnake(direction);
+  }
 }
