@@ -7,6 +7,7 @@ import 'package:flutter_snake/models/tile_model.dart';
 import 'package:flutter_snake/providers/game_provider.dart';
 import 'package:flutter_snake/widgets/board.dart';
 import 'package:flutter_snake/widgets/joystick.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var game = ref.watch(gameProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('AlgoSnake'),
+        title: Text('AlgoSnake', style: GoogleFonts.jua()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),

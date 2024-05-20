@@ -109,8 +109,9 @@ class GameModel {
           return TileType.snakeBodyDownLeft;
         } else if (previous.x > x && next.y < y || next.x > x && previous.y < y) {
           return TileType.snakeBodyUpLeft;
-        } else
+        } else {
           return TileType.snakeBodyHorizontal;
+        }
       }
     } else if (food?.x == x && food?.y == y) {
       return TileType.food;
