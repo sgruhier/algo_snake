@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_snake/models/tile_model.dart';
 import 'package:flutter_snake/providers/game_provider.dart';
 import 'package:flutter_snake/widgets/board.dart';
 import 'package:flutter_snake/widgets/joystick.dart';
@@ -29,7 +30,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
-            const Board(),
+            GestureDetector(
+              onPanUpdate: (details) => _handleSwipe(details, ref),
+              child: const Board(),
+            ),
             const Expanded(
               child: Center(
                 child: Joystick(),
@@ -75,5 +79,23 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       timer!.cancel();
     }
     ref.read(gameProvider.notifier).togglePause();
+  }
+
+  void _handleSwipe(DragUpdateDetails details, WidgetRef ref) {
+    if (ref.read(gameProvider).isPaused) return;
+
+    const sensibilty = 10;
+    if (details.delta.dy > sensibilty) {
+      ref.read(gameProvider.notifier).setSnakeDirection(Direction.down);
+    }
+    if (details.delta.dy < -sensibilty) {
+      ref.read(gameProvider.notifier).setSnakeDirection(Direction.up);
+    }
+    if (details.delta.dx > sensibilty) {
+      ref.read(gameProvider.notifier).setSnakeDirection(Direction.right);
+    }
+    if (details.delta.dx < -sensibilty) {
+      ref.read(gameProvider.notifier).setSnakeDirection(Direction.left);
+    }
   }
 }
