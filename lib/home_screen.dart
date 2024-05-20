@@ -16,7 +16,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Timer? timer;
-  bool isPaused = false;
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +37,13 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             if (!game.isPlaying)
               ElevatedButton(
-                onPressed: () => _start(ref),
+                onPressed: () => _start(),
                 child: Text(game.isGameOver ? 'Restart' : 'Start'),
               ),
             if (game.isPlaying)
               ElevatedButton(
-                onPressed: () => _pauseRestart(ref),
-                child: Text(isPaused ? 'Continue' : 'Pause'),
+                onPressed: () => _pauseRestart(),
+                child: Text(game.isPaused ? 'Continue' : 'Pause'),
               ),
             if (game.isGameOver) const Text('Game Over'),
             SizedBox(
@@ -56,7 +55,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  void _start(WidgetRef ref) {
+  void _start() {
     ref.read(gameProvider.notifier).start();
     if (timer != null) {
       timer!.cancel();
@@ -67,14 +66,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     });
   }
 
-  void _pauseRestart(WidgetRef ref) {
-    if (isPaused) {
+  void _pauseRestart() {
+    if (ref.read(gameProvider).isPaused) {
       timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
         ref.read(gameProvider.notifier).moveSnake();
       });
     } else {
       timer!.cancel();
     }
-    setState(() => isPaused = !isPaused);
+    ref.read(gameProvider.notifier).togglePause();
   }
 }

@@ -78,6 +78,10 @@ class GameNotifier extends StateNotifier<GameModel> {
 
     state = state.copyWith(snake: snake, isGameOver: isGameOver(), isPlaying: !isGameOver());
   }
+
+  void togglePause() {
+    state = state.copyWith(isPaused: !state.isPaused);
+  }
 }
 
 final gameProvider = StateNotifierProvider<GameNotifier, GameModel>((ref) => GameNotifier());
