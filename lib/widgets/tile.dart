@@ -1,5 +1,10 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_snake/models/tile_model.dart';
+import 'package:flutter_svg/svg.dart';
+
+const tileBg = Color(0xFF67C1F3);
 
 class Tile extends StatelessWidget {
   const Tile({
@@ -16,26 +21,58 @@ class Tile extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (tileType) {
       case TileType.empty:
-        return container(color ?? Colors.grey[400]!);
-      case TileType.snakeBody:
-        return container(color ?? Colors.green);
-      case TileType.snakeHead:
-        return container(color ?? Colors.green[200]!);
-      case TileType.snakeTail:
-        return container(color ?? Colors.green[900]!);
+        return container();
+
+      case TileType.snakeBodyHorizontal:
+        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_body.svg'));
+      case TileType.snakeBodyVertical:
+        return container(child: SvgPicture.asset('assets/snake_body.svg'));
+      case TileType.snakeBodyUpLeft:
+        return container(angle: -pi / 2, child: SvgPicture.asset('assets/snake_corner.svg'));
+      case TileType.snakeBodyUpRight:
+        return container(angle: pi, child: SvgPicture.asset('assets/snake_corner.svg'));
+      case TileType.snakeBodyDownLeft:
+        return container(angle: 0, child: SvgPicture.asset('assets/snake_corner.svg'));
+      case TileType.snakeBodyDownRight:
+        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_corner.svg'));
+
+      case TileType.snakeHeadLeft:
+        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_head.svg'));
+      case TileType.snakeHeadRight:
+        return container(angle: -pi / 2, child: SvgPicture.asset('assets/snake_head.svg'));
+      case TileType.snakeHeadUp:
+        return container(angle: pi, child: SvgPicture.asset('assets/snake_head.svg'));
+      case TileType.snakeHeadDown:
+        return container(angle: 0, child: SvgPicture.asset('assets/snake_head.svg'));
+
+      case TileType.snakeTailLeft:
+        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_tail.svg'));
+      case TileType.snakeTailRight:
+        return container(angle: -pi / 2, child: SvgPicture.asset('assets/snake_tail.svg'));
+      case TileType.snakeTailUp:
+        return container(angle: pi, child: SvgPicture.asset('assets/snake_tail.svg'));
+      case TileType.snakeTailDown:
+        return container(child: SvgPicture.asset('assets/snake_tail.svg'));
+
       case TileType.food:
-        return container(color ?? Colors.orange);
+        return container(child: SvgPicture.asset('assets/tomato.svg'));
       default:
         return const SizedBox();
     }
   }
 
-  Container container(Color color) {
+  Container container({Widget? child, double angle = 0}) {
     return Container(
-        color: color,
-        margin: const EdgeInsets.all(1),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: color ?? tileBg,
+        ),
+        margin: const EdgeInsets.all(0),
         child: Center(
-          child: child,
+          child: Transform.rotate(
+            angle: angle,
+            child: child,
+          ),
         ));
   }
 }

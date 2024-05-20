@@ -8,13 +8,28 @@ enum Direction {
 
 enum TileType {
   empty,
-  snakeBody,
-  snakeHead,
-  snakeTail,
+
+  snakeBodyVertical,
+  snakeBodyHorizontal,
+  snakeBodyDownLeft,
+  snakeBodyDownRight,
+  snakeBodyUpLeft,
+  snakeBodyUpRight,
+
+  snakeHeadUp,
+  snakeHeadRight,
+  snakeHeadDown,
+  snakeHeadLeft,
+
+  snakeTailUp,
+  snakeTailRight,
+  snakeTailDown,
+  snakeTailLeft,
+
   food;
 
   bool get isSnake {
-    return this == TileType.snakeBody || this == TileType.snakeHead || this == TileType.snakeTail;
+    return this != TileType.empty && this != TileType.food;
   }
 }
 

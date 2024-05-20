@@ -18,10 +18,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
-        scaffoldBackgroundColor: Colors.grey[200],
-        appBarTheme: AppBarTheme(
-          backgroundColor: Colors.grey[200],
-          titleTextStyle: const TextStyle(color: Colors.black),
+        scaffoldBackgroundColor: const Color(0xFF92caf2),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF92caf2),
+          titleTextStyle: TextStyle(color: Colors.black),
         ),
         useMaterial3: true,
       ),

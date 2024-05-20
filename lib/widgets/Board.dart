@@ -15,6 +15,8 @@ class Board extends ConsumerWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: game.board.nbColumns,
+        crossAxisSpacing: 1,
+        mainAxisSpacing: 1,
       ),
       itemCount: game.board.nbColumns * game.board.nbRows,
       itemBuilder: (BuildContext context, int index) {

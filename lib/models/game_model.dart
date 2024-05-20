@@ -67,13 +67,50 @@ class GameModel {
 
   TileType getTileType(int x, int y) {
     if (snake.any((element) => element.x == x && element.y == y)) {
-      var snakeTile = snake.firstWhere((element) => element.x == x && element.y == y);
-      if (snakeTile == snake.last) {
-        return TileType.snakeHead;
-      } else if (snakeTile == snake.first) {
-        return TileType.snakeTail;
-      } else {
-        return TileType.snakeBody;
+      var snakeTile = snake.indexWhere((element) => element.x == x && element.y == y);
+      var previous = snakeTile == 0 ? null : snake[snakeTile - 1];
+      var next = snakeTile == snake.length - 1 ? null : snake[snakeTile + 1];
+
+      // Tails of the snake
+      if (snakeTile == 0) {
+        if (next!.x > x) {
+          return TileType.snakeTailLeft;
+        } else if (next.x < x) {
+          return TileType.snakeTailRight;
+        } else if (next.y > y) {
+          return TileType.snakeTailUp;
+        } else {
+          return TileType.snakeTailDown;
+        }
+      }
+      // Head of the snake
+      else if (snakeTile == snake.length - 1) {
+        if (previous!.x > x) {
+          return TileType.snakeHeadLeft;
+        } else if (previous.x < x) {
+          return TileType.snakeHeadRight;
+        } else if (previous.y > y) {
+          return TileType.snakeHeadUp;
+        } else {
+          return TileType.snakeHeadDown;
+        }
+      }
+      // Body of the snake
+      else {
+        if (previous!.x < x && next!.x > x || next!.x < x && previous.x > x) {
+          return TileType.snakeBodyHorizontal;
+        } else if (previous.y < y && next.y > y || next.y < y && previous.y > y) {
+          return TileType.snakeBodyVertical;
+        } else if (previous.x < x && next.y > y || next.x < x && previous.y > y) {
+          return TileType.snakeBodyDownRight;
+        } else if (previous.x < x && next.y < y || next.x < x && previous.y < y) {
+          return TileType.snakeBodyUpRight;
+        } else if (previous.x > x && next.y > y || next.x > x && previous.y > y) {
+          return TileType.snakeBodyDownLeft;
+        } else if (previous.x > x && next.y < y || next.x > x && previous.y < y) {
+          return TileType.snakeBodyUpLeft;
+        } else
+          return TileType.snakeBodyHorizontal;
       }
     } else if (food?.x == x && food?.y == y) {
       return TileType.food;
