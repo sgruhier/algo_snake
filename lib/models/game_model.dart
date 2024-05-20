@@ -10,6 +10,7 @@ class GameModel {
   TileModel? food;
   bool isGameOver;
   bool isPlaying;
+  bool isPaused;
   Direction direction;
 
   GameModel({
@@ -19,6 +20,7 @@ class GameModel {
     this.food,
     this.isGameOver = false,
     this.isPlaying = false,
+    this.isPaused = false,
   });
 
   void start() {
@@ -86,6 +88,7 @@ class GameModel {
     TileModel? food,
     bool? isGameOver,
     bool? isPlaying,
+    bool? isPaused,
     Direction? direction,
   }) {
     return GameModel(
@@ -94,6 +97,7 @@ class GameModel {
       food: food ?? this.food,
       isGameOver: isGameOver ?? this.isGameOver,
       isPlaying: isPlaying ?? this.isPlaying,
+      isPaused: isPaused ?? this.isPaused,
       direction: direction ?? this.direction,
     );
   }
