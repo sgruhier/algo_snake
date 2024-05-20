@@ -22,8 +22,4 @@ class TileModel {
   final int x;
   final int y;
   TileModel({required this.x, required this.y});
-
-  int index() {
-    return x + y * 10;
-  }
 }
