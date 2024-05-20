@@ -7,6 +7,7 @@ import 'package:flutter_snake/models/tile_model.dart';
 import 'package:flutter_snake/providers/game_provider.dart';
 import 'package:flutter_snake/widgets/board.dart';
 import 'package:flutter_snake/widgets/joystick.dart';
+import 'package:flutter_snake/widgets/timer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -25,7 +26,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     var game = ref.watch(gameProvider);
     return Scaffold(
       appBar: AppBar(
-        title: Text('AlgoSnake', style: GoogleFonts.jua()),
+        title: Text('AlgoSnake', style: GoogleFonts.jua(fontSize: 18)),
+        actions: const [TimerWidget()],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
