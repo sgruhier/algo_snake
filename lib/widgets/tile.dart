@@ -24,38 +24,110 @@ class Tile extends StatelessWidget {
         return container();
 
       case TileType.snakeBodyHorizontal:
-        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_body.svg'));
+        return container(
+            angle: pi / 2,
+            child: SvgPicture.asset(
+              'assets/snake_body.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeBodyVertical:
-        return container(child: SvgPicture.asset('assets/snake_body.svg'));
+        return container(
+            child: SvgPicture.asset(
+          'assets/snake_body.svg',
+          width: double.infinity,
+        ));
       case TileType.snakeBodyUpLeft:
-        return container(angle: -pi / 2, child: SvgPicture.asset('assets/snake_corner.svg'));
+        return container(
+            angle: -pi / 2,
+            child: SvgPicture.asset(
+              'assets/snake_corner.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeBodyUpRight:
-        return container(angle: pi, child: SvgPicture.asset('assets/snake_corner.svg'));
+        return container(
+            angle: pi,
+            child: SvgPicture.asset(
+              'assets/snake_corner.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeBodyDownLeft:
-        return container(angle: 0, child: SvgPicture.asset('assets/snake_corner.svg'));
+        return container(
+            angle: 0,
+            child: SvgPicture.asset(
+              'assets/snake_corner.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeBodyDownRight:
-        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_corner.svg'));
+        return container(
+            angle: pi / 2,
+            child: SvgPicture.asset(
+              'assets/snake_corner.svg',
+              width: double.infinity,
+            ));
 
       case TileType.snakeHeadLeft:
-        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_head.svg'));
+        return container(
+            angle: pi / 2,
+            child: SvgPicture.asset(
+              'assets/snake_head.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeHeadRight:
-        return container(angle: -pi / 2, child: SvgPicture.asset('assets/snake_head.svg'));
+        return container(
+            angle: -pi / 2,
+            child: SvgPicture.asset(
+              'assets/snake_head.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeHeadUp:
-        return container(angle: pi, child: SvgPicture.asset('assets/snake_head.svg'));
+        return container(
+            angle: pi,
+            child: SvgPicture.asset(
+              'assets/snake_head.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeHeadDown:
-        return container(angle: 0, child: SvgPicture.asset('assets/snake_head.svg'));
+        return container(
+            angle: 0,
+            child: SvgPicture.asset(
+              'assets/snake_head.svg',
+              width: double.infinity,
+            ));
 
       case TileType.snakeTailLeft:
-        return container(angle: pi / 2, child: SvgPicture.asset('assets/snake_tail.svg'));
+        return container(
+            angle: pi / 2,
+            child: SvgPicture.asset(
+              'assets/snake_tail.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeTailRight:
-        return container(angle: -pi / 2, child: SvgPicture.asset('assets/snake_tail.svg'));
+        return container(
+            angle: -pi / 2,
+            child: SvgPicture.asset(
+              'assets/snake_tail.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeTailUp:
-        return container(angle: pi, child: SvgPicture.asset('assets/snake_tail.svg'));
+        return container(
+            angle: pi,
+            child: SvgPicture.asset(
+              'assets/snake_tail.svg',
+              width: double.infinity,
+            ));
       case TileType.snakeTailDown:
-        return container(child: SvgPicture.asset('assets/snake_tail.svg'));
+        return container(
+            child: SvgPicture.asset(
+          'assets/snake_tail.svg',
+          width: double.infinity,
+        ));
 
       case TileType.food:
-        return container(child: SvgPicture.asset('assets/tomato.svg'));
+        return container(
+            child: SvgPicture.asset(
+          'assets/tomato.svg',
+          width: double.infinity,
+        ));
       default:
         return const SizedBox();
     }
@@ -67,7 +139,8 @@ class Tile extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
           color: color ?? tileBg,
         ),
-        margin: const EdgeInsets.all(0),
+        margin: EdgeInsets.zero,
+        padding: EdgeInsets.zero,
         child: Center(
           child: Transform.rotate(
             angle: angle,

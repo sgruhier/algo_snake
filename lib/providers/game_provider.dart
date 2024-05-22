@@ -45,6 +45,10 @@ class GameNotifier extends StateNotifier<GameModel> {
     state = state.copyWith(direction: direction);
   }
 
+  void incrementScore() {
+    state = state.copyWith(score: state.score + 1);
+  }
+
   void moveSnake() {
     if (state.isPlaying == false) {
       return;
@@ -68,15 +72,22 @@ class GameNotifier extends StateNotifier<GameModel> {
     }
 
     // check if new head eats food, add don't remove snake tail tile and generate new food
+    var increment = 0;
     if (state.food != null && state.food!.x == newHead.x && state.food!.y == newHead.y) {
       snake.add(newHead);
       state.generateFood();
+      increment++;
     } else {
       snake.removeAt(0);
       snake.add(newHead);
     }
 
-    state = state.copyWith(snake: snake, isGameOver: isGameOver(), isPlaying: !isGameOver());
+    state = state.copyWith(
+      snake: snake,
+      isGameOver: isGameOver(),
+      isPlaying: !isGameOver(),
+      score: state.score + increment,
+    );
   }
 
   void togglePause() {

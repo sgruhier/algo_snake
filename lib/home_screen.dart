@@ -8,6 +8,7 @@ import 'package:flutter_snake/providers/game_provider.dart';
 import 'package:flutter_snake/widgets/board.dart';
 import 'package:flutter_snake/widgets/button.dart';
 import 'package:flutter_snake/widgets/joystick.dart';
+import 'package:flutter_snake/widgets/score.dart';
 import 'package:flutter_snake/widgets/timer.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -20,71 +21,96 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
   Timer? timer;
+  final Color backgroundGameOverColor = const Color(0xFFf09878);
 
   @override
   Widget build(BuildContext context) {
-    var padding = MediaQuery.paddingOf(context);
     var game = ref.watch(gameProvider);
+    if (game.isGameOver) {
+      timer!.cancel();
+    }
     return Scaffold(
+      backgroundColor: game.isGameOver ? backgroundGameOverColor : null,
       appBar: AppBar(
-        title: Text('AlgoSnake', style: GoogleFonts.jua(fontSize: 18)),
-        actions: const [TimerWidget()],
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const Score(),
+            Text('AlgoSnake', style: GoogleFonts.jua(fontSize: 24)),
+            const TimerWidget(),
+          ],
+        ),
+        backgroundColor: game.isGameOver ? backgroundGameOverColor : null,
       ),
-      body: Padding(
+      body: Container(
         padding: const EdgeInsets.all(8.0),
+        constraints: const BoxConstraints(maxWidth: 1000),
         child: Column(
           children: [
             GestureDetector(
               onPanUpdate: (details) => _handleSwipe(details, ref),
               child: const Board(),
             ),
-            const Expanded(
-              child: Center(
-                child: Joystick(),
+            Expanded(
+              child: Stack(
+                children: [
+                  const Center(
+                    child: Joystick(),
+                  ),
+                  Positioned(
+                    top: 16,
+                    right: 16,
+                    child: Button(
+                      padding: const EdgeInsets.all(8.0),
+                      radius: 10,
+                      onTap: _playAction,
+                      child: _playIcon(),
+                    ),
+                  )
+                ],
               ),
             ),
-            if (!game.isPlaying)
-              Button(
-                onTap: () => _start(),
-                padding: const EdgeInsets.all(8),
-                child: Text(game.isGameOver ? 'Restart' : 'Start'),
-              ),
-            if (game.isPlaying)
-              Button(
-                onTap: () => _pauseRestart(),
-                padding: const EdgeInsets.all(8),
-                child: Text(game.isPaused ? 'Continue' : 'Pause'),
-              ),
-            if (game.isGameOver) const Text('Game Over'),
-            SizedBox(
-              height: padding.bottom,
-            )
           ],
         ),
       ),
     );
   }
 
-  void _start() {
-    ref.read(gameProvider.notifier).start();
-    if (timer != null) {
-      timer!.cancel();
+  Icon _playIcon() {
+    var game = ref.watch(gameProvider);
+    if (game.isGameOver) {
+      return const Icon(Icons.refresh);
     }
-    var duration = max(200, 600 - 10 * ref.read(gameProvider).snake.length);
-    timer = Timer.periodic(Duration(milliseconds: duration), (timer) {
-      ref.read(gameProvider.notifier).moveSnake();
-    });
+    if (game.isPlaying && !game.isPaused) {
+      return const Icon(Icons.pause);
+    }
+    return const Icon(Icons.play_arrow_outlined);
   }
 
-  void _pauseRestart() {
+  void _playAction() {
+    var game = ref.watch(gameProvider);
+    if (game.isPlaying) {
+      _pauseResume();
+    } else {
+      _start();
+    }
+  }
+
+  void _start() {
+    ref.read(gameProvider.notifier).start();
+    _pauseResume();
+  }
+
+  void _pauseResume() {
+    ref.read(gameProvider.notifier).togglePause();
     if (ref.read(gameProvider).isPaused) {
-      timer = Timer.periodic(const Duration(milliseconds: 300), (timer) {
+      var duration = max(200, 600 - 10 * ref.read(gameProvider).snake.length);
+      timer = Timer.periodic(Duration(milliseconds: duration), (timer) {
         ref.read(gameProvider.notifier).moveSnake();
       });
     } else {
       timer!.cancel();
     }
-    ref.read(gameProvider.notifier).togglePause();
   }
 
   void _handleSwipe(DragUpdateDetails details, WidgetRef ref) {

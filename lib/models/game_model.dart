@@ -12,6 +12,7 @@ class GameModel {
   bool isPlaying;
   bool isPaused;
   Direction direction;
+  int score;
 
   GameModel({
     required this.board,
@@ -21,6 +22,7 @@ class GameModel {
     this.isGameOver = false,
     this.isPlaying = false,
     this.isPaused = false,
+    this.score = 0,
   });
 
   void start() {
@@ -47,6 +49,7 @@ class GameModel {
 
     generateFood();
     isPlaying = true;
+    score = 0;
   }
 
   void generateFood() {
@@ -128,6 +131,7 @@ class GameModel {
     bool? isPlaying,
     bool? isPaused,
     Direction? direction,
+    int? score,
   }) {
     return GameModel(
       board: board ?? this.board,
@@ -137,6 +141,7 @@ class GameModel {
       isPlaying: isPlaying ?? this.isPlaying,
       isPaused: isPaused ?? this.isPaused,
       direction: direction ?? this.direction,
+      score: score ?? this.score,
     );
   }
 }

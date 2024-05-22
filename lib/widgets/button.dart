@@ -5,11 +5,13 @@ class Button extends StatefulWidget {
     required this.child,
     required this.onTap,
     this.padding,
+    this.radius = 18,
     super.key,
   });
   final Widget child;
   final VoidCallback onTap;
   final EdgeInsets? padding;
+  final double radius;
 
   @override
   State<Button> createState() => _ButtonState();
@@ -49,7 +51,7 @@ class _ButtonState extends State<Button> {
           padding: widget.padding,
           transform: Matrix4.translationValues(0, _isPressed ? 2 : 0, 0),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(widget.radius),
             color: const Color(0xFFF0F5FF),
             boxShadow: [
               BoxShadow(
