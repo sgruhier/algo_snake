@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_snake/models/tile_model.dart';
 import 'package:flutter_snake/providers/game_provider.dart';
 import 'package:flutter_snake/widgets/board.dart';
+import 'package:flutter_snake/widgets/button.dart';
 import 'package:flutter_snake/widgets/joystick.dart';
 import 'package:flutter_snake/widgets/timer.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -43,13 +44,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               ),
             ),
             if (!game.isPlaying)
-              ElevatedButton(
-                onPressed: () => _start(),
+              Button(
+                onTap: () => _start(),
+                padding: const EdgeInsets.all(8),
                 child: Text(game.isGameOver ? 'Restart' : 'Start'),
               ),
             if (game.isPlaying)
-              ElevatedButton(
-                onPressed: () => _pauseRestart(),
+              Button(
+                onTap: () => _pauseRestart(),
+                padding: const EdgeInsets.all(8),
                 child: Text(game.isPaused ? 'Continue' : 'Pause'),
               ),
             if (game.isGameOver) const Text('Game Over'),
