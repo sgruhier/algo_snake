@@ -42,6 +42,12 @@ class GameNotifier extends StateNotifier<GameModel> {
   }
 
   void setSnakeDirection(Direction direction) {
+    // Check if it's a valid direction, cannot move on its head
+    final newHead = moveHead(direction);
+    final beforeHead = state.snake[state.snake.length -2];
+    if (newHead.x == beforeHead.x && newHead.y == beforeHead.y ) {
+      return;
+    }
     state = state.copyWith(direction: direction);
   }
 
@@ -54,23 +60,8 @@ class GameNotifier extends StateNotifier<GameModel> {
       return;
     }
     var snake = state.snake;
-    var head = state.snake.last;
-    late TileModel newHead;
-    switch (state.direction) {
-      case Direction.up:
-        newHead = TileModel(x: head.x, y: head.y - 1);
-        break;
-      case Direction.down:
-        newHead = TileModel(x: head.x, y: head.y + 1);
-        break;
-      case Direction.right:
-        newHead = TileModel(x: head.x + 1, y: head.y);
-        break;
-      case Direction.left:
-        newHead = TileModel(x: head.x - 1, y: head.y);
-        break;
-    }
-
+    TileModel newHead = moveHead(state.direction);
+    
     // check if new head eats food, add don't remove snake tail tile and generate new food
     var increment = 0;
     if (state.food != null && state.food!.x == newHead.x && state.food!.y == newHead.y) {
@@ -88,6 +79,27 @@ class GameNotifier extends StateNotifier<GameModel> {
       isPlaying: !isGameOver(),
       score: state.score + increment,
     );
+  }
+
+  TileModel moveHead(Direction direction) {
+    var head = state.snake.last;
+    TileModel newHead;
+    
+    switch (direction) {
+      case Direction.up:
+        newHead = TileModel(x: head.x, y: head.y - 1);
+        break;
+      case Direction.down:
+        newHead = TileModel(x: head.x, y: head.y + 1);
+        break;
+      case Direction.right:
+        newHead = TileModel(x: head.x + 1, y: head.y);
+        break;
+      case Direction.left:
+        newHead = TileModel(x: head.x - 1, y: head.y);
+        break;
+    }
+    return newHead;
   }
 
   void togglePause() {
