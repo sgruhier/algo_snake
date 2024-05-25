@@ -7,6 +7,7 @@ import 'package:flutter_snake/models/tile_model.dart';
 import 'package:flutter_snake/providers/game_provider.dart';
 import 'package:flutter_snake/widgets/board.dart';
 import 'package:flutter_snake/widgets/button.dart';
+import 'package:flutter_snake/widgets/countdown.dart';
 import 'package:flutter_snake/widgets/joystick.dart';
 import 'package:flutter_snake/widgets/score.dart';
 import 'package:flutter_snake/widgets/timer.dart';
@@ -63,7 +64,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     child: Button(
                       padding: const EdgeInsets.all(8.0),
                       radius: 10,
-                      onTap: _playAction,
+                      onTap: () => _playAction(ref),
                       child: _playIcon(),
                     ),
                   )
@@ -86,25 +87,27 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
     return const Icon(Icons.play_arrow_outlined);
   }
+  
+  void _start(WidgetRef ref) {
+    _showCountdown(() {
+    ref.read(gameProvider.notifier).start();
+    _pauseResume();
+    });
+  }
 
-  void _playAction() {
+  void _playAction(WidgetRef ref) {
     var game = ref.watch(gameProvider);
     if (game.isPlaying) {
       _pauseResume();
     } else {
-      _start();
+      _start(ref);
     }
   }
-
-  void _start() {
-    ref.read(gameProvider.notifier).start();
-    _pauseResume();
-  }
-
   void _pauseResume() {
     ref.read(gameProvider.notifier).togglePause();
     if (!ref.read(gameProvider).isPaused) {
       var duration = max(200, 600 - 10 * ref.read(gameProvider).snake.length);
+      print("timer");
       timer = Timer.periodic(Duration(milliseconds: duration), (timer) {
         ref.read(gameProvider.notifier).moveSnake();
       });
@@ -129,5 +132,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     if (details.delta.dx < -sensibilty) {
       ref.read(gameProvider.notifier).setSnakeDirection(Direction.left);
     }
+  }
+
+  void _showCountdown(VoidCallback onComplete) {
+    final overlay = Overlay.of(context);
+    late final OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(builder: (context) {
+      return CountDownOverlay(onComplete: () {
+        overlayEntry.remove();
+        onComplete();
+      });
+    });
+
+    overlay.insert(overlayEntry);
   }
 }

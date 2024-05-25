@@ -50,12 +50,15 @@ class _TimerWidgetState extends ConsumerState<TimerWidget> {
   @override
   Widget build(BuildContext context) {
     ref.listen(gameProvider, (previous, next) {
-      if (previous?.isPlaying == false && next.isPlaying) {
-        _startTimer();
-      } else if ((previous?.isPaused == false && next.isPaused) || next.isGameOver) {
+     if ((previous?.isPaused == false && next.isPaused) || next.isGameOver) {
+        if (previous!= null && previous.isGameOver) {
+          _secondsElapsed = 0;
+        }
         _pauseTimer();
+        setState(() { });
       } else if (previous?.isPaused == true && !next.isPaused) {
         _startTimer();
+        setState(() { });
       }
     });
     return Container(
