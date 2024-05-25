@@ -21,7 +21,7 @@ class GameModel {
     this.food,
     this.isGameOver = false,
     this.isPlaying = false,
-    this.isPaused = false,
+    this.isPaused = true,
     this.score = 0,
   });
 

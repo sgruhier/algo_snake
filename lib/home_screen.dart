@@ -103,7 +103,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   void _pauseResume() {
     ref.read(gameProvider.notifier).togglePause();
-    if (ref.read(gameProvider).isPaused) {
+    if (!ref.read(gameProvider).isPaused) {
       var duration = max(200, 600 - 10 * ref.read(gameProvider).snake.length);
       timer = Timer.periodic(Duration(milliseconds: duration), (timer) {
         ref.read(gameProvider.notifier).moveSnake();
