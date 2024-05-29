@@ -32,6 +32,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           children: [
             GestureDetector(
               onPanUpdate: (details) => _handleSwipe(details, ref),
+              // onHorizontalDragEnd: (details) {
+              //   print(details.velocity.pixelsPerSecond.dx);
+              // },
+              // onHorizontalDragUpdate: (detail) {
+              //   print(detail.delta.dx);
+              // },
               child: const Board(),
             ),
             const Expanded(
